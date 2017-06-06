@@ -12,13 +12,20 @@ class ExceptionOccured extends Mailable
     use Queueable, SerializesModels;
 
     /**
+     * The body of the message.
+     *
+     * @var string
+     */
+    public $content;    
+
+    /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($content)
     {
-        //
+        $this->content = $content;
     }
 
     /**
@@ -28,6 +35,7 @@ class ExceptionOccured extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('emails.exception')
+                    ->with('content', $this->content);
     }
 }
