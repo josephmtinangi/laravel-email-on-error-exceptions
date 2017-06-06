@@ -2,7 +2,10 @@
 
 namespace App\Exceptions;
 
+use Mail;
 use Exception;
+use Symfony\Component\Debug\Exception\FlattenException;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -76,5 +79,16 @@ class Handler extends ExceptionHandler
     public function sendEmail(Exception $exception)
     {
         // sending email
+        try {
+            $e = FlattenException::create($exception);
+
+            $handler = new SymfonyExceptionHandler();
+
+            $html = $handler->getHtml($e);
+
+            Mail::to('developer@gmail.com')->send(new ExceptionOccured($html));
+        } catch (Exception $ex) {
+            dd($ex);
+        }        
     }    
 }
