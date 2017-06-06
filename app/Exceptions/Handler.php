@@ -62,4 +62,15 @@ class Handler extends ExceptionHandler
 
         return redirect()->guest(route('login'));
     }
+
+    /**
+     * Sends an email to the developer about the exception.
+     *
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function sendEmail(Exception $exception)
+    {
+        // sending email
+    }    
 }
